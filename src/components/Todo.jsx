@@ -14,16 +14,12 @@ const Todo = (props) => {
     : setState({ formStyle: {display: "block"}});
   }
 
-  const handleDeleteClickedTodo = () => {
-    props.deleteTodo(props.todo);
-  }
-
   return (
     <li data-todos-index={props.todo._id}>
       <div>
         <span className="todo-item">{props.todo.body}</span>
         <span className="edit" onClick={handleToggleBodyForm}>Edit</span>
-        <span className="remove" onClick={handleDeleteClickedTodo}>Remove</span>
+        <span className="remove" onClick={() => props.handleDeleteTodo(props.todo)}>Remove</span>
       </div> 
       <TodoForm 
         todo={props}

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Todos from "../components/Todos"
+import Todos from "../components/Todos";
+import CreateTodoForm from "../components/CreateTodoForm";
 
 const TodosContainer = () => {
 
@@ -9,7 +10,7 @@ const TodosContainer = () => {
     handleFetchAllTodos();
   }, [])
 
-
+  // Fetch All Todos
   const handleFetchAllTodos = () => {
     fetch(`https://super-crud.herokuapp.com/todos`)
     .then(response => response.json())
@@ -17,9 +18,49 @@ const TodosContainer = () => {
     .catch(err => console.log(err));
   }
 
+  // Create a Todo
+  const handleCreateTodo = () => {
+
+    const newTodo = {
+        body: "Take the cats for a walk",
+        completed: false,
+    };
+
+    fetch("https://super-crud.herokuapp.com/todos", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newTodo),
+    })
+    .catch(err => console.log(err));
+  }
+
+  // Delete Todo
+  const handledDeleteTodo = (todo) => {
+    console.log('DELETE HIT')
+    fetch(`https://super-crud.herokuapp.com/todos/${todo._id}`, {
+      method: "DELETE",
+    })
+    .then(() => {
+      let filteredTodos = todos.filter((todo) => {
+        return todo._id !== todos._id
+      });
+      console.log(filteredTodos)
+      setTodos(filteredTodos);
+    })
+    .catch(err => console.log(err));
+  }
+
   return (
     <div className = "todosContainer">
-      <Todos todos={todos} />
+      <CreateTodoForm
+        handleCreateTodo={handleCreateTodo}
+      />
+      <Todos 
+        todos={todos}
+        handleDeleteTodo={handledDeleteTodo}
+      />
     </div>  
   );
 };

@@ -8,7 +8,8 @@ const Todos = (props) => {
           return  <Todo
                     key={todo._id}
                     todo={todo} 
-                    deleteTodo={props.deleteTodo}
+                    handleDeleteTodo={props.handleDeleteTodo}
+                    handleCreateTodo={props.handleCreateTodo}
                     updateTodo={props.updateTodo}
                   />
         })}
