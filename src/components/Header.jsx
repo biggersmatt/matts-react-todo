@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const Header = () => {
+  console.log('Header.js')
   return(
     <header>
       <h1>To-Do</h1>
