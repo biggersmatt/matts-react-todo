@@ -13,11 +13,10 @@ const TodosContainer = () => {
   const handleFetchAllTodos = () => {
     fetch(`https://super-crud.herokuapp.com/todos`)
     .then(response => response.json())
-    .then(jsonData => setTodos(jsonData))
+    .then(jsonData => setTodos(jsonData.todos))
     .catch(err => console.log(err));
   }
 
-  console.log('/containers/TodoContainer.js')
   return (
     <div className = "todosContainer">
       <Todos todos={todos} />
