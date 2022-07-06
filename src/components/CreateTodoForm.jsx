@@ -1,20 +1,24 @@
 import React, { useState } from "react";
 
 const CreateToDoForm = (props) => {
-  const [todo, setTodo] = useState("")
+  const [todo, setTodo] = useState({
+    body: "",
+    completed: false,
+  })
 
   const handleInputChange = (event) => {
-    console.log(event.target.value)
-    console.log(todo)
-    setTodo(event.target.value);
+    setTodo({
+      body: event.target.value,
+      completed: false,
+    });
   };
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    let newTodo = todo;
-    props.handleCreateTodo(newTodo);
-    this.setState({
-      todo: "",
+    props.handleCreateTodo(todo);
+    setTodo({
+      body: "",
+      completed: false,
     });
   };
 
@@ -25,7 +29,7 @@ const CreateToDoForm = (props) => {
           onChange={handleInputChange}
           type="text" id="newItemDescription"
           placeholder="What do you need to do?"
-          value={todo}
+          value={todo.body}
         />
         <button type="submit" id="addTask" className="btn">Add Todo</button>  
       </form>

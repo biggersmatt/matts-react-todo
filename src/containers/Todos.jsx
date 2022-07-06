@@ -4,50 +4,54 @@ import CreateTodoForm from "../components/CreateTodoForm";
 
 const TodosContainer = () => {
 
-  const [todos, setTodos] = useState([]);
+  const [state, setState] = useState({
+    todos: [],
+    update: true,
+  })
 
   useEffect(() => {
-    handleFetchAllTodos();
-  }, [])
+    if(state.update) {
+      handleFetchAllTodos();
+    }
+  }, [state.update])
 
-  // Fetch All Todos
   const handleFetchAllTodos = () => {
     fetch(`https://super-crud.herokuapp.com/todos`)
     .then(response => response.json())
-    .then(jsonData => setTodos(jsonData.todos))
+    .then(jsonData => setState({
+      todos: jsonData.todos,
+      update: false,
+    }))
     .catch(err => console.log(err));
   }
 
-  // Create a Todo
-  const handleCreateTodo = () => {
-
-    const newTodo = {
-        body: "Take the cats for a walk",
-        completed: false,
-    };
-
+  const handleCreateTodo = (todo) => {
     fetch("https://super-crud.herokuapp.com/todos", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newTodo),
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(todo),
+    })
+    .then(() => {
+      setState({
+        todos: state.todos,
+        update: true,
+      });
     })
     .catch(err => console.log(err));
   }
 
-  // Delete Todo
   const handledDeleteTodo = (todo) => {
-    console.log('DELETE HIT')
     fetch(`https://super-crud.herokuapp.com/todos/${todo._id}`, {
       method: "DELETE",
     })
     .then(() => {
-      let filteredTodos = todos.filter((todo) => {
-        return todo._id !== todos._id
+      let filteredTodos = state.todos.filter((todo) => {
+        return todo._id !== state.todos._id
       });
-      console.log(filteredTodos)
-      setTodos(filteredTodos);
+      setState({
+        todos: filteredTodos,
+        update: true,
+      });
     })
     .catch(err => console.log(err));
   }
@@ -58,7 +62,7 @@ const TodosContainer = () => {
         handleCreateTodo={handleCreateTodo}
       />
       <Todos 
-        todos={todos}
+        todos={state.todos}
         handleDeleteTodo={handledDeleteTodo}
       />
     </div>  
