@@ -1,8 +1,7 @@
-import React from "react";
+// Dependencies
 import { Link } from "react-router-dom";
 
 const Header = () => {
-  console.log('Header.js')
   return(
     <header>
       <h1>To-Do</h1>

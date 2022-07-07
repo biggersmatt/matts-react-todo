@@ -6,7 +6,7 @@ import Home from "./components/Home";
 import Todos from "./containers/Todos";
 
 const App = () => {
-  console.log('App.js');
+/*********************************************** Return **********************************************/
   return (
     <div className="container">
       <Header />
